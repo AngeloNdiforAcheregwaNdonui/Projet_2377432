@@ -10,9 +10,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MusicNote
@@ -36,7 +39,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +54,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import coil.compose.AsyncImage
 import com.example.project_2377432.ui.theme.Project_2377432Theme
 
 
@@ -105,22 +111,60 @@ fun HomeScreen(navController: NavController) {
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        Icon(
-            Icons.Rounded.LibraryMusic,
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
         Text(
-            "Écran d'accueil",
-            style = MaterialTheme.typography.headlineMedium
+            "Kendrick Lamar Duckworth is an American rapper and songwriter. " +
+                    "Regarded as one of the most influential hip hop artists of his generation," +
+                    " and one of the greatest rappers of all time," +
+                    " he is known for his technical artistry and complex songwriting",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        (1..4).forEach {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            // Première colonne : Image de Kendrick Lamar
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                AsyncImage(
+                    model = "https://www.rollingstone.it/wp-content/uploads/2024/05/kendrick-lamar-wins-the-beef.jpg",
+                    contentDescription = "Kendrick Lamar",
+                    modifier = Modifier
+                        .size(200.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            }
+
+            // Deuxième colonne : Texte
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 16.dp)
+            ) {
+                Text(
+                    "Né le: Juin 17, 1987",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Né dans: Compton, Carlifornia, United States",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Maisons de Disques: pgLang, Top Dawg Entertainment",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+        }
+    }
+
+        /**(1..4).forEach {
             Button(onClick = {
                 navController.navigate(Screen.Profile.createRoute(userId = it))
                 {
@@ -137,9 +181,9 @@ fun HomeScreen(navController: NavController) {
             }) {
                 Text(it.toString())
             }
-        }
+        }**/
     }
-}
+
 
 @Composable
 fun ProfileScreen(userId: Int) {
@@ -202,19 +246,26 @@ fun AppNavigation() {
             TopAppBar(
                 title = {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(25.dp)
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             Icons.Rounded.Album,
                             contentDescription = null,
                             modifier = Modifier.size(48.dp)
                         )
+
+                        Spacer(modifier = Modifier.width(28.dp))
+
                         Text(
                             text = ("Kendrick Lamar"),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
+
+                        Spacer(modifier = Modifier.width(28.dp))
+
                         Icon(
                             Icons.Rounded.Album,
                             contentDescription = null,
