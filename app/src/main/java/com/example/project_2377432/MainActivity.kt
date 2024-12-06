@@ -186,11 +186,11 @@ fun HomeScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 AlbumItem(
-                    imageUrl = "https://en.wikipedia.org/wiki/Good_Kid,_M.A.A.D_City#/media/File:KendrickLamarGKMCDeluxe.jpg",
+                    imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/ce/KendrickLamarGKMCDeluxe.jpg",
                     title = "Good Kid, M.A.A.D City"
                 )
                 AlbumItem(
-                    imageUrl = "https://en.wikipedia.org/wiki/To_Pimp_a_Butterfly#/media/File:Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
+                    imageUrl = "https://upload.wikimedia.org/wikipedia/en/f/f6/Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
                     title = "To Pimp A Butterfly"
                 )
             }
