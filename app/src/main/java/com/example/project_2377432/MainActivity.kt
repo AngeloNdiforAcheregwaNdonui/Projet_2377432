@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -45,6 +47,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -106,63 +109,117 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            "Kendrick Lamar Duckworth is an American rapper and songwriter. " +
-                    "Regarded as one of the most influential hip hop artists of his generation," +
-                    " and one of the greatest rappers of all time," +
-                    " he is known for his technical artistry and complex songwriting",
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
+        item {
+            Text(
+                "Kendrick Lamar Duckworth is an American rapper and songwriter. " +
+                        "Regarded as one of the most influential hip hop artists of his generation," +
+                        " and one of the greatest rappers of all time," +
+                        " he is known for his technical artistry and complex songwriting",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            // Première colonne : Image de Kendrick Lamar
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // First column: Image
                 AsyncImage(
-                    model = "https://www.rollingstone.it/wp-content/uploads/2024/05/kendrick-lamar-wins-the-beef.jpg",
+                    model = "https://example.com/kendrick_lamar.jpg",
                     contentDescription = "Kendrick Lamar",
                     modifier = Modifier
-                        .size(200.dp)
+                        .weight(1f)
+                        .aspectRatio(1f)
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.Crop
                 )
-            }
 
-            // Deuxième colonne : Texte
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 16.dp)
+                // Second column: Biography
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        "Né le: Juin 17, 1987",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        "Né dans: Compton, California, United States",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        "Maisons de Disques: pgLang, Top Dawg Entertainment",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
+        }
+
+        item {
+            Text(
+                "Kendrick Lamar is renowned for his intricate and thought-provoking discography," +
+                " widely regarded as one of the greatest in the history of music. Among his masterpieces, " +
+                        "Good Kid, M.A.A.D City and To Pimp a Butterfly stand out as defining works that showcase his unparalleled storytelling and artistic vision",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
+        item {
+            Text(
+                "Albums",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    "Né le: Juin 17, 1987",
-                    style = MaterialTheme.typography.bodyLarge
+                AlbumItem(
+                    imageUrl = "https://example.com/good_kid_maad_city.jpg",
+                    title = "Good Kid, M.A.A.D City"
                 )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    "Né dans: Compton, Carlifornia, United States",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    "Maisons de Disques: pgLang, Top Dawg Entertainment",
-                    style = MaterialTheme.typography.bodyLarge
+                AlbumItem(
+                    imageUrl = "https://example.com/to_pimp_a_butterfly.jpg",
+                    title = "To Pimp A Butterfly"
                 )
             }
         }
     }
+}
+
+@Composable
+fun AlbumItem(imageUrl: String, title: String) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.width(150.dp)
+    ) {
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = title,
+            modifier = Modifier
+                .size(150.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            title,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+    }
+}
 
         /**(1..4).forEach {
             Button(onClick = {
@@ -182,7 +239,7 @@ fun HomeScreen(navController: NavController) {
                 Text(it.toString())
             }
         }**/
-    }
+
 
 
 @Composable
