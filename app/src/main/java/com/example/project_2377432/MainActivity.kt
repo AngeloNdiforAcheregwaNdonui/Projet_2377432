@@ -133,7 +133,7 @@ fun HomeScreen(navController: NavController) {
             ) {
                 // First column: Image
                 AsyncImage(
-                    model = "https://example.com/kendrick_lamar.jpg",
+                    model = "https://www.rollingstone.it/wp-content/uploads/2024/05/kendrick-lamar-wins-the-beef.jpg",
                     contentDescription = "Kendrick Lamar",
                     modifier = Modifier
                         .weight(1f)
@@ -186,11 +186,11 @@ fun HomeScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 AlbumItem(
-                    imageUrl = "https://example.com/good_kid_maad_city.jpg",
+                    imageUrl = "https://en.wikipedia.org/wiki/Good_Kid,_M.A.A.D_City#/media/File:KendrickLamarGKMCDeluxe.jpg",
                     title = "Good Kid, M.A.A.D City"
                 )
                 AlbumItem(
-                    imageUrl = "https://example.com/to_pimp_a_butterfly.jpg",
+                    imageUrl = "https://en.wikipedia.org/wiki/To_Pimp_a_Butterfly#/media/File:Kendrick_Lamar_-_To_Pimp_a_Butterfly.png",
                     title = "To Pimp A Butterfly"
                 )
             }
