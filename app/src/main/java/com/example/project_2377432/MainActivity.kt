@@ -166,9 +166,7 @@ fun HomeScreen(navController: NavController) {
 
         item {
             Text(
-                "Kendrick Lamar is renowned for his intricate and thought-provoking discography," +
-                " widely regarded as one of the greatest in the history of music. Among his masterpieces, " +
-                        "Good Kid, M.A.A.D City and To Pimp a Butterfly stand out as defining works that showcase his unparalleled storytelling and artistic vision",
+                "Good Kid, M.A.A.D City and To Pimp a Butterfly stand out as defining works that showcase his unparalleled storytelling and artistic vision",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
