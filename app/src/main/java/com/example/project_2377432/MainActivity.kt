@@ -262,6 +262,60 @@ private fun SearchTextFields(
 
 
 @Composable
+fun GkmcSongCard(
+    song: GkmcSong,
+    expandable: Boolean = false,
+    clickable: Boolean = true,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(expandable) }
+
+    val context = LocalContext.current
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable {
+                if (clickable) {
+                    val intent = Intent(context, SongActivity::class.java)
+                    intent.putExtra("song", song)
+                    context.startActivity(intent)
+                }
+            },
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        val configuration = LocalConfiguration.current
+        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+
+            // la mise en page a besoin d'être améliorée
+            if (expanded) {
+
+                if (isLandscape) {
+                    Row {
+                        SongBasicData(song)
+                        SongDetails(song)
+                    }
+                    HorizontalImageCarousel(photoResources = song.photoResources)
+                } else {
+                    SongBasicData(song)
+                    SongDetails(player)
+                    VerticalImageCarousel(photoResources = song.photoResources)
+                }
+            } else {
+                SongBasicData(song)
+            }
+        }
+    }
+}
+
+@Composable
 fun ProfileScreen(userId: Int) {
     Column(
         modifier = Modifier
