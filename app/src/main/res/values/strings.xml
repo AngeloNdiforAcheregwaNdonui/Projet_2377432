@@ -2,5 +2,16 @@
     <string name="app_name">Project_2377432</string>
     <string name="name_label">Name</string>
     <string name="position_label">Position</string>
+    <string name="first_photo">Album art of %1$s</string>
+    <string name="song_photo">Song photo %1$d</string>
+    <string name="position">Position</string>
+    <string name="songwriters">Songwriters</string>
+    <string name="producers">Producers</string>
+    <string name="grammy_nominations">Grammy Nominations</string>
+    <string name="grammy_wins">Grammy Wins</string>
+    <string name="total_grammys">Total Grammys</string>
+    <string name="is_classic">Is Classic?</string>
+    <string name="length">Length</string>
+    <string name="album">Album</string>
     <string name="player_not_found">Player not found!</string>
 </resources>

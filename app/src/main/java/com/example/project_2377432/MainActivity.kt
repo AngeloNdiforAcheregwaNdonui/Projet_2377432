@@ -2,16 +2,20 @@ package com.example.project_2377432
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,11 +23,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -50,6 +57,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -317,7 +325,7 @@ fun GkmcSongCard(
                     HorizontalImageCarousel(photoResources = song.photoResources)
                 } else {
                     SongBasicData(song)
-                    SongDetails(player)
+                    SongDetails(song)
                     VerticalImageCarousel(photoResources = song.photoResources)
                 }
             } else {
@@ -326,6 +334,157 @@ fun GkmcSongCard(
         }
     }
 }
+
+@Composable
+private fun SongBasicData(song: GkmcSong) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(8.dp)
+    ) {
+        // First Photo of the Song (Album Art)
+        song.photoResources.firstOrNull()?.let { photoResource ->
+            Image(
+                painter = painterResource(id = photoResource),
+                contentDescription = stringResource(R.string.first_photo, song.name),
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(end = 16.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+        // Song Information
+        Column {
+            Row {
+                // Classic Icon if song is considered a "Classic"
+                if (song.isClassic()) {
+                    Icon(
+                        imageVector = Icons.Outlined.Star,
+                        contentDescription = stringResource(R.string.is_classic),
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
+                Text(
+                    text = song.name,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            SongDataRow(R.string.position, song.position.toString())
+            SongDataRow(R.string.album, song.album)
+            SongDataRow(R.string.length, song.length)
+            SongDataRow(R.string.producers, song.producers)
+        }
+    }
+}
+
+@Composable
+private fun SongDetails(song: GkmcSong) {
+    Row(
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+
+        // First Column: General Song Details
+        Column {
+            SongDataRow(R.string.songwriters, song.songwriters)
+            SongDataRow(R.string.producers, song.producers)
+            SongDataRow(R.string.grammy_nominations, song.grammy_nominations.toString())
+            SongDataRow(R.string.grammy_wins, song.grammy_wins.toString())
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Second Column: Derived Details
+        Column {
+            SongDataRow(R.string.total_grammys, song.grammy.toString())
+            SongDataRow(R.string.is_classic, if (song.isClassic()) "Yes" else "No")
+            SongDataRow(R.string.length, song.length)
+            SongDataRow(R.string.album, song.album)
+        }
+    }
+}
+
+@Composable
+private fun SongDataRow(labelRes: Int, value: String) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 2.dp)
+    ) {
+        Text(
+            text = stringResource(labelRes),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+fun VerticalImageCarousel(photoResources: List<Int>) {
+    Card(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(200.dp)
+            .padding(8.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                itemsIndexed(photoResources) { index, photoResource ->
+                    Image(
+                        painter = painterResource(id = photoResource),
+                        contentDescription = stringResource(R.string.song_photo, index + 1),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .aspectRatio(1f),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HorizontalImageCarousel(photoResources: List<Int>) {
+    Card(
+        modifier = Modifier
+            .fillMaxSize()
+            .height(200.dp)
+            .padding(8.dp)
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            LazyRow(
+                modifier = Modifier.align(Alignment.Center),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                itemsIndexed(photoResources) { index, photoResource ->
+                    Image(
+                        painter = painterResource(id = photoResource),
+                        contentDescription = stringResource(R.string.song_photo, index + 1),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .aspectRatio(1f),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun ProfileScreen(userId: Int) {
