@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.example.project_2377432"
+    namespace = "angelo.acheregwa.project_2377432"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.project_2377432"
+        applicationId = "angelo.acheregwa.project_2377432"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -53,6 +54,8 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.firebase.crashlytics.buildtools)
+    implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

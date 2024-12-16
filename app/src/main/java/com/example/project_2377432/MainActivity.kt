@@ -61,7 +61,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
+import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.ui.theme.Project_2377432Theme
 
 
@@ -246,7 +248,9 @@ fun AlbumItem(imageUrl: String, title: String) {
 @Composable
 private fun SearchTextFields(
             nameSearch: String,
-            onNameChange: (String) -> Unit
+            onNameChange: (String) -> Unit,
+            numberSearch: Int?,
+            onNumberChange: (String) -> Unit
         ) {
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 TextField(
@@ -256,6 +260,14 @@ private fun SearchTextFields(
                     modifier = Modifier
                         .fillMaxWidth(0.67f)
                         .padding(start = 20.dp)
+                )
+                TextField(
+                    value = (numberSearch ?: "").toString(),
+                    label = { Text(text = stringResource(R.string.position_label)) },
+                    onValueChange = onNumberChange,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 5.dp, end = 20.dp)
                 )
             }
         }
