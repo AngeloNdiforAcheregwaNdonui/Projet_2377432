@@ -14,4 +14,12 @@
     <string name="length">Length</string>
     <string name="album">Album</string>
     <string name="player_not_found">Player not found!</string>
+    <string name="vertical_carousel_label">Vertical Image Carousel</string>
+    <string name="horizontal_carousel_label">Horizontal Image Carousel</string>
+    <string name="no_data_available">No data available</string>
+    <string name="album_intro">
+        Released in 2012, "good kid, m.A.A.d city" is Kendrick Lamar\'s second studio album,
+        widely celebrated for its storytelling, lyrical depth, and powerful depiction of
+        life in Compton. It solidified Kendrick Lamar as one of hip-hop's greatest voices.
+    </string>
 </resources>

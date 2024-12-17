@@ -2,7 +2,6 @@ package com.example.project_2377432
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -72,6 +71,7 @@ import androidx.navigation.navArgument
 import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
 import com.example.project_2377432.data.GkmcSong
+import com.example.project_2377432.data.getSongs
 import com.example.project_2377432.ui.theme.Project_2377432Theme
 
 
@@ -487,31 +487,77 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
 
 
 @Composable
-fun ProfileScreen(userId: Int) {
+fun ProfileScreen(
+    nameSearch: String = "",
+    onNameChange: (String) -> Unit = {},
+    numberSearch: Int? = null,
+    onNumberChange: (String) -> Unit = {}
+) {
+    // Dynamically filter songs based on search input
+    val filteredSongs = getSongs(name = nameSearch, number = numberSearch)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            Icons.Default.Person,
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            "Écran de profil",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            userId.toString(),
-            style = MaterialTheme.typography.headlineMedium
+        // Search Fields at the Top
+        SearchTextFields(
+            nameSearch = nameSearch,
+            onNameChange = onNameChange,
+            numberSearch = numberSearch,
+            onNumberChange = onNumberChange
         )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Album Introduction
+        Text(
+            text = stringResource(R.string.album_intro),
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        if (filteredSongs.isNotEmpty()) {
+            // Display the first filtered song
+            val song = filteredSongs.first()
+
+            // Song Basic Data
+            SongBasicData(song = song)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Vertical Image Carousel
+            Text(
+                text = stringResource(R.string.vertical_carousel_label),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            VerticalImageCarousel(photoResources = song.photoResources)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Horizontal Image Carousel
+            Text(
+                text = stringResource(R.string.horizontal_carousel_label),
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            HorizontalImageCarousel(photoResources = song.photoResources)
+        } else {
+            // Show a message when no results match the search criteria
+            Text(
+                text = stringResource(R.string.no_data_available),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }
+
+
 
 @Composable
 fun SettingsScreen() {
@@ -620,7 +666,7 @@ fun AppNavigation() {
                 arguments = listOf(navArgument("userId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-                ProfileScreen(userId)
+                ProfileScreen()
             }
             composable(Screen.Settings.route) {
                 SettingsScreen()
