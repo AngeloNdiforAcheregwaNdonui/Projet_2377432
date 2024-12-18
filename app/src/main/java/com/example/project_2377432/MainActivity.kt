@@ -60,6 +60,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -271,7 +272,7 @@ private fun SearchTextFields(
                 )
                 TextField(
                     value = (numberSearch ?: "").toString(),
-                    label = { Text(text = stringResource(R.string.position_label)) },
+                    label = { Text(text = stringResource(R.string.position)) },
                     onValueChange = onNumberChange,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -485,7 +486,7 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
     }
 }
 
-
+@Preview
 @Composable
 fun ProfileScreen(
     nameSearch: String = "",
@@ -513,13 +514,6 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         // Album Introduction
-        Text(
-            text = stringResource(R.string.album_intro),
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         if (filteredSongs.isNotEmpty()) {
             // Display the first filtered song
@@ -531,11 +525,6 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             // Vertical Image Carousel
-            Text(
-                text = stringResource(R.string.vertical_carousel_label),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
             VerticalImageCarousel(photoResources = song.photoResources)
 
             Spacer(modifier = Modifier.height(16.dp))
