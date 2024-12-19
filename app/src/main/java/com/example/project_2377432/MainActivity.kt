@@ -25,7 +25,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -74,7 +73,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
-import com.example.project_2377432.Screen.Companion.items
 import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.data.getSongs
 import com.example.project_2377432.ui.theme.Project_2377432Theme
@@ -302,7 +300,7 @@ fun GkmcSongCard(
             .padding(16.dp)
             .clickable {
                 if (clickable) {
-                    val intent = Intent(context, SongActivity::class.java)
+                    val intent = Intent(context, GkmcSongActivity::class.java)
                     intent.putExtra("song", song)
                     context.startActivity(intent)
                 }
@@ -497,7 +495,7 @@ fun ProfileScreen(
     numberSearch: Int? = null,
     onNumberChange: (String) -> Unit = {}
 ) {
-    val filteredSongs = getSongs(name = nameSearch, numb er = numberSearch)
+    val filteredSongs = getSongs(name = nameSearch, number = numberSearch)
 
     Column(
         modifier = Modifier

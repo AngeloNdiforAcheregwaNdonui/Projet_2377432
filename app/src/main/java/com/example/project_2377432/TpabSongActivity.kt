@@ -19,19 +19,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import angelo.acheregwa.project_2377432.R
-import com.example.project_2377432.data.GkmcSong
+import com.example.project_2377432.data.TpabSong
 
-class SongActivity : ComponentActivity() {
+class TpabSongActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val song = intent.getParcelableExtra("song", GkmcSong::class.java)
+        val song = intent.getParcelableExtra("song", TpabSong::class.java)
 
         setContent {
             Scaffold(
@@ -66,7 +65,7 @@ class SongActivity : ComponentActivity() {
                         .padding(innerPadding)
                 ) {
                     if (song != null)
-                        GkmcSongCard(
+                        TpabSongCard(
                             song = song,
                             expandable = true,
                             clickable = false
