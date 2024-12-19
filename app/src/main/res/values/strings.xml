@@ -16,4 +16,5 @@
     <string name="vertical_carousel_label">Vertical Image Carousel</string>
     <string name="horizontal_carousel_label">Horizontal Image Carousel</string>
     <string name="no_data_available">No data available</string>
+    <string name="toggle">Toggle theme</string>
 </resources>
