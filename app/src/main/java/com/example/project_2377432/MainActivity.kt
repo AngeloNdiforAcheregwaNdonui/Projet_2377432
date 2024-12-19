@@ -1,13 +1,10 @@
 package com.example.project_2377432
 
-import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,9 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -35,7 +29,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -49,21 +42,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -75,8 +62,8 @@ import androidx.navigation.navArgument
 import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
 import com.example.project_2377432.data.GkmcSong
-import com.example.project_2377432.data.getGkmcSongs
-import com.example.project_2377432.screens.ProfileScreen
+import com.example.project_2377432.screens.GkmcScreen
+import com.example.project_2377432.screens.TpabScreen
 import com.example.project_2377432.ui.theme.Project_2377432Theme
 
 
@@ -286,78 +273,7 @@ fun AlbumItem(imageUrl: String, title: String) {
         }
 
 @Composable
-fun SongBasicData(song: GkmcSong) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
-    ) {
-        // First Photo of the Song (Album Art)
-        song.photoResources.firstOrNull()?.let { photoResource ->
-            Image(
-                painter = painterResource(id = photoResource),
-                contentDescription = stringResource(R.string.first_photo, song.name),
-                modifier = Modifier
-                    .size(100.dp)
-                    .padding(end = 16.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
-        }
-
-        // Song Information
-        Column {
-            Row {
-                // Classic Icon if song is considered a "Classic"
-                if (song.isClassic()) {
-                    Icon(
-                        imageVector = Icons.Outlined.Star,
-                        contentDescription = stringResource(R.string.is_classic),
-                        modifier = Modifier.padding(end = 8.dp)
-                    )
-                }
-                Text(
-                    text = song.name,
-                    style = MaterialTheme.typography.headlineSmall
-                )
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            SongDataRow(R.string.position, song.position.toString())
-            SongDataRow(R.string.album, song.album)
-            SongDataRow(R.string.length, song.length)
-            SongDataRow(R.string.producers, song.producers)
-        }
-    }
-}
-
-@Composable
-fun SongDetails(song: GkmcSong) {
-    Row(
-        modifier = Modifier.padding(8.dp)
-    ) {
-        Spacer(modifier = Modifier.weight(1f))
-
-        // First Column: General Song Details
-        Column {
-            SongDataRow(R.string.songwriters, song.songwriters)
-            SongDataRow(R.string.producers, song.producers)
-            SongDataRow(R.string.grammy_nominations, song.grammy_nominations.toString())
-            SongDataRow(R.string.grammy_wins, song.grammy_wins.toString())
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Second Column: Derived Details
-        Column {
-            SongDataRow(R.string.total_grammys, song.grammy.toString())
-            SongDataRow(R.string.is_classic, if (song.isClassic()) "Yes" else "No")
-            SongDataRow(R.string.length, song.length)
-            SongDataRow(R.string.album, song.album)
-        }
-    }
-}
-
-@Composable
-private fun SongDataRow(labelRes: Int, value: String) {
+fun SongDataRow(labelRes: Int, value: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
@@ -435,30 +351,6 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
     }
 }
 
-
-
-@Composable
-fun SettingsScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            Icons.Default.Settings,
-            contentDescription = null,
-            modifier = Modifier.size(48.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            "Écran des paramètres",
-            style = MaterialTheme.typography.headlineMedium
-        )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation() {
@@ -507,7 +399,7 @@ fun AppNavigation() {
         },
         bottomBar = {
             NavigationBar {
-                Screen.items.filter { it.title != "Profil" }.forEach { screen ->
+                Screen.items.filter { it.title != "GKMC" }.forEach { screen ->
                     NavigationBarItem(
                         icon = {
                             Icon(screen.icon, contentDescription = screen.title)
@@ -543,11 +435,10 @@ fun AppNavigation() {
                 route = Screen.Profile.route,
                 arguments = listOf(navArgument("userId") { type = NavType.IntType })
             ) { backStackEntry ->
-                val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-                ProfileScreen()
+                GkmcScreen()
             }
             composable(Screen.Settings.route) {
-                SettingsScreen()
+                TpabScreen()
             }
         }
     }

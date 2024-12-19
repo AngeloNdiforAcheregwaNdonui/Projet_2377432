@@ -1,57 +1,35 @@
 package com.example.project_2377432.screens
 
-import android.content.Intent
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import angelo.acheregwa.project_2377432.R
-import com.example.project_2377432.GkmcSongActivity
-import com.example.project_2377432.HorizontalImageCarousel
 import com.example.project_2377432.SearchTextFields
 import com.example.project_2377432.SongDataRow
-import com.example.project_2377432.VerticalImageCarousel
 import com.example.project_2377432.data.GkmcSong
-import com.example.project_2377432.data.getGkmcSongs
-
+import com.example.project_2377432.data.TpabSong
+import com.example.project_2377432.data.getTpabSongs
 
 
 @Composable
-fun SongBasicData(song: GkmcSong) {
+fun SongBasicData(song: TpabSong) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
@@ -95,7 +73,7 @@ fun SongBasicData(song: GkmcSong) {
 }
 
 @Composable
-fun SongDetails(song: GkmcSong) {
+fun SongDetails(song: TpabSong) {
     Row(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -120,77 +98,48 @@ fun SongDetails(song: GkmcSong) {
         }
     }
 }
-
 @Composable
-fun GkmcSongCard(
-    song: GkmcSong,
-    expandable: Boolean = false,
-    clickable: Boolean = true,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(expandable) }
-
-    val context = LocalContext.current
-
+fun TpabSongCard(song: TpabSong, expandable: Boolean = false) {
     Card(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .clickable {
-                if (clickable) {
-                    val intent = Intent(context, GkmcSongActivity::class.java)
-                    intent.putExtra("song", song)
-                    context.startActivity(intent)
-                }
-            },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .padding(8.dp)
     ) {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-
-            // la mise en page a besoin d'être améliorée
-            if (expanded) {
-
-                if (isLandscape) {
-                    Row {
-                        SongBasicData(song)
-                        SongDetails(song)
-                    }
-                    HorizontalImageCarousel(photoResources = song.photoResources)
-                } else {
-                    SongBasicData(song)
-                    SongDetails(song)
-                    VerticalImageCarousel(photoResources = song.photoResources)
-                }
-            } else {
-                SongBasicData(song)
-            }
+            Text(
+                text = song.name,
+                style = MaterialTheme.typography.headlineSmall
+            )
+            Text(
+                text = "Album: ${song.album}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Length: ${song.length}",
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
 
-@Preview
 @Composable
-fun GkmcScreen(
+fun TpabScreen(
     nameSearch: String = "",
     onNameChange: (String) -> Unit = {},
     numberSearch: Int? = null,
     onNumberChange: (String) -> Unit = {}
 ) {
-    val filteredSongs = getGkmcSongs(name = nameSearch, number = numberSearch)
+    val filteredSongs = getTpabSongs(name = nameSearch, number = numberSearch)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Search Fields at the Top
         SearchTextFields(
             nameSearch = nameSearch,
             onNameChange = onNameChange,
@@ -200,18 +149,15 @@ fun GkmcScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Use LazyVerticalGrid for the catalog layout
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 180.dp),
-            modifier = Modifier
-                .fillMaxSize(), // Ensure grid takes up the remaining space
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(filteredSongs) { song ->
-                GkmcSongCard(song = song, expandable = false)
+                TpabSongCard(song = song, expandable = false)
             }
         }
     }
 }
-
