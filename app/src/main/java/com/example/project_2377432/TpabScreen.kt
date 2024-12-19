@@ -167,7 +167,6 @@ fun TpabSongCard(
     }
 }
 
-@Preview
 @Composable
 fun TpabScreen(
     nameSearch: String = "",
