@@ -76,6 +76,7 @@ import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
 import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.data.getGkmcSongs
+import com.example.project_2377432.screens.ProfileScreen
 import com.example.project_2377432.ui.theme.Project_2377432Theme
 
 
@@ -258,7 +259,7 @@ fun AlbumItem(imageUrl: String, title: String) {
 
 
 @Composable
-private fun SearchTextFields(
+        fun SearchTextFields(
             nameSearch: String,
             onNameChange: (String) -> Unit,
             numberSearch: Int?,
@@ -285,61 +286,7 @@ private fun SearchTextFields(
         }
 
 @Composable
-fun GkmcSongCard(
-    song: GkmcSong,
-    expandable: Boolean = false,
-    clickable: Boolean = true,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(expandable) }
-
-    val context = LocalContext.current
-
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable {
-                if (clickable) {
-                    val intent = Intent(context, GkmcSongActivity::class.java)
-                    intent.putExtra("song", song)
-                    context.startActivity(intent)
-                }
-            },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-
-            // la mise en page a besoin d'être améliorée
-            if (expanded) {
-
-                if (isLandscape) {
-                    Row {
-                        SongBasicData(song)
-                        SongDetails(song)
-                    }
-                    HorizontalImageCarousel(photoResources = song.photoResources)
-                } else {
-                    SongBasicData(song)
-                    SongDetails(song)
-                    VerticalImageCarousel(photoResources = song.photoResources)
-                }
-            } else {
-                SongBasicData(song)
-            }
-        }
-    }
-}
-
-@Composable
-private fun SongBasicData(song: GkmcSong) {
+fun SongBasicData(song: GkmcSong) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
@@ -383,7 +330,7 @@ private fun SongBasicData(song: GkmcSong) {
 }
 
 @Composable
-private fun SongDetails(song: GkmcSong) {
+fun SongDetails(song: GkmcSong) {
     Row(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -483,46 +430,6 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
                         contentScale = ContentScale.Crop
                     )
                 }
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun ProfileScreen(
-    nameSearch: String = "",
-    onNameChange: (String) -> Unit = {},
-    numberSearch: Int? = null,
-    onNumberChange: (String) -> Unit = {}
-) {
-    val filteredSongs = getGkmcSongs(name = nameSearch, number = numberSearch)
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        // Search Fields at the Top
-        SearchTextFields(
-            nameSearch = nameSearch,
-            onNameChange = onNameChange,
-            numberSearch = numberSearch,
-            onNumberChange = onNumberChange
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Use LazyVerticalGrid for the catalog layout
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 180.dp),
-            modifier = Modifier
-                .fillMaxSize(), // Ensure grid takes up the remaining space
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(filteredSongs) { song ->
-                GkmcSongCard(song = song, expandable = false)
             }
         }
     }
