@@ -28,8 +28,8 @@ data class TpabSong(
 }
 
 
-fun getSongs(name: String? = null, number: Int? = null): List<TpabSong> =
-    getSampleSongs()
+fun getTpabSongs(name: String? = null, number: Int? = null): List<TpabSong> =
+    getTpabSampleSongs()
         .filter { song ->
             (name == null || song.name.lowercase().contains(name.lowercase())) &&
                     (number == null || song.position == number)
@@ -47,7 +47,7 @@ fun filterSongs(
         }
 
 
-fun getTpabSongs(): List<TpabSong> {
+fun getTpabSampleSongs(): List<TpabSong> {
     return listOf(
         TpabSong(
             position = 1,
@@ -270,7 +270,7 @@ fun Context.saveToFile(players: List<TpabSong>, filename: String) {
     }
 }
 
-fun Context.readSongsFromFile(filename: String): List<TpabSong> {
+fun Context.readTpabSongsFromFile(filename: String): List<TpabSong> {
     val file = File(this.filesDir, filename)
     return if (file.exists()) {
         try {

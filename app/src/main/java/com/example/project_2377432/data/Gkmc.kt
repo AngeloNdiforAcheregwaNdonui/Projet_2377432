@@ -28,8 +28,8 @@ data class GkmcSong(
 }
 
 
-fun getSongs(name: String? = null, number: Int? = null): List<GkmcSong> =
-    getSampleSongs()
+fun getGkmcSongs(name: String? = null, number: Int? = null): List<GkmcSong> =
+    getGkmcSampleSongs()
         .filter { song ->
             (name == null || song.name.lowercase().contains(name.lowercase())) &&
                     (number == null || song.position == number)
@@ -47,7 +47,7 @@ fun filterSongs(
         }
 
 
-fun getSampleSongs(): List<GkmcSong> {
+fun getGkmcSampleSongs(): List<GkmcSong> {
     return listOf(
         GkmcSong(
             position = 1,
@@ -204,7 +204,7 @@ fun Context.saveToFile(players: List<GkmcSong>, filename: String) {
     }
 }
 
-fun Context.readSongsFromFile(filename: String): List<GkmcSong> {
+fun Context.readGkmcSongsFromFile(filename: String): List<GkmcSong> {
     val file = File(this.filesDir, filename)
     return if (file.exists()) {
         try {

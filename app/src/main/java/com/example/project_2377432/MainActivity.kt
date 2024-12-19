@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -74,7 +75,7 @@ import androidx.navigation.navArgument
 import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
 import com.example.project_2377432.data.GkmcSong
-import com.example.project_2377432.data.getSongs
+import com.example.project_2377432.data.getGkmcSongs
 import com.example.project_2377432.ui.theme.Project_2377432Theme
 
 
@@ -495,7 +496,7 @@ fun ProfileScreen(
     numberSearch: Int? = null,
     onNumberChange: (String) -> Unit = {}
 ) {
-    val filteredSongs = getSongs(name = nameSearch, number = numberSearch)
+    val filteredSongs = getGkmcSongs(name = nameSearch, number = numberSearch)
 
     Column(
         modifier = Modifier
