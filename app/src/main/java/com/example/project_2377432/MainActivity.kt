@@ -119,8 +119,9 @@ class MainActivity : ComponentActivity() {
                             FloatingActionButton(onClick = { isDarkTheme = !isDarkTheme }) {
                                 Icon(
                                     imageVector = if (isDarkTheme) Icons.Default.Brightness4 else Icons.Default.Brightness7,
-                                    contentDescription = R.string.toggle
+                                    contentDescription = stringResource(R.string.toggle)
                                 )
+
                             }
                         }
                     ) { paddingValues ->

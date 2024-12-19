@@ -1,6 +1,9 @@
 package com.example.project_2377432.screens
 
+import android.content.Intent
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -10,19 +13,30 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import angelo.acheregwa.project_2377432.R
+import com.example.project_2377432.GkmcSongActivity
+import com.example.project_2377432.HorizontalImageCarousel
 import com.example.project_2377432.SearchTextFields
 import com.example.project_2377432.SongDataRow
+import com.example.project_2377432.TpabSongActivity
+import com.example.project_2377432.VerticalImageCarousel
 import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.data.TpabSong
 import com.example.project_2377432.data.getTpabSongs
@@ -98,34 +112,62 @@ fun SongDetails(song: TpabSong) {
         }
     }
 }
+
 @Composable
-fun TpabSongCard(song: TpabSong, expandable: Boolean = false) {
+fun TpabSongCard(
+    song: TpabSong,
+    expandable: Boolean = false,
+    clickable: Boolean = true,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(expandable) }
+
+    val context = LocalContext.current
+
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(16.dp)
+            .clickable {
+                if (clickable) {
+                    val intent = Intent(context, TpabSongActivity::class.java)
+                    intent.putExtra("song", song)
+                    context.startActivity(intent)
+                }
+            },
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
+        val configuration = LocalConfiguration.current
+        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text(
-                text = song.name,
-                style = MaterialTheme.typography.headlineSmall
-            )
-            Text(
-                text = "Album: ${song.album}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Length: ${song.length}",
-                style = MaterialTheme.typography.bodyMedium
-            )
+
+            // la mise en page a besoin d'être améliorée
+            if (expanded) {
+
+                if (isLandscape) {
+                    Row {
+                        SongBasicData(song)
+                        SongDetails(song)
+                    }
+                    HorizontalImageCarousel(photoResources = song.photoResources)
+                } else {
+                    SongBasicData(song)
+                    SongDetails(song)
+                    VerticalImageCarousel(photoResources = song.photoResources)
+                }
+            } else {
+                SongBasicData(song)
+            }
         }
     }
 }
 
+@Preview
 @Composable
 fun TpabScreen(
     nameSearch: String = "",

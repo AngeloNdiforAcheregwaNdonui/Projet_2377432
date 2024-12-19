@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import angelo.acheregwa.project_2377432.R
 import com.example.project_2377432.data.TpabSong
+import com.example.project_2377432.screens.TpabSongCard
 
 class TpabSongActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
