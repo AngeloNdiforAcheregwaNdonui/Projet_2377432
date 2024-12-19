@@ -23,6 +23,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -71,6 +74,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
+import com.example.project_2377432.Screen.Companion.items
 import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.data.getSongs
 import com.example.project_2377432.ui.theme.Project_2377432Theme
@@ -280,7 +284,6 @@ private fun SearchTextFields(
                 )
             }
         }
-
 
 @Composable
 fun GkmcSongCard(
@@ -494,14 +497,12 @@ fun ProfileScreen(
     numberSearch: Int? = null,
     onNumberChange: (String) -> Unit = {}
 ) {
-    // Dynamically filter songs based on search input
-    val filteredSongs = getSongs(name = nameSearch, number = numberSearch)
+    val filteredSongs = getSongs(name = nameSearch, numb er = numberSearch)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
         // Search Fields at the Top
         SearchTextFields(
@@ -513,35 +514,17 @@ fun ProfileScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Album Introduction
-
-        if (filteredSongs.isNotEmpty()) {
-            // Display the first filtered song
-            val song = filteredSongs.first()
-
-            // Song Basic Data
-            SongBasicData(song = song)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Vertical Image Carousel
-            VerticalImageCarousel(photoResources = song.photoResources)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Horizontal Image Carousel
-            Text(
-                text = stringResource(R.string.horizontal_carousel_label),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            HorizontalImageCarousel(photoResources = song.photoResources)
-        } else {
-            // Show a message when no results match the search criteria
-            Text(
-                text = stringResource(R.string.no_data_available),
-                style = MaterialTheme.typography.bodyLarge
-            )
+        // Use LazyVerticalGrid for the catalog layout
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 180.dp),
+            modifier = Modifier
+                .fillMaxSize(), // Ensure grid takes up the remaining space
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(filteredSongs) { song ->
+                GkmcSongCard(song = song, expandable = false)
+            }
         }
     }
 }
