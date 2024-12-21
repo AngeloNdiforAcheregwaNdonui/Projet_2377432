@@ -36,7 +36,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import angelo.acheregwa.project_2377432.R
+import com.example.project_2377432.R
 import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.screens.GkmcSongCard
 import com.example.project_2377432.screens.SongBasicData

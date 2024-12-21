@@ -28,7 +28,6 @@ import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,9 +64,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
-import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.screens.GkmcScreen
 import com.example.project_2377432.screens.TpabScreen
 import com.example.project_2377432.ui.theme.Project_2377432Theme
@@ -82,23 +79,20 @@ sealed class Screen(
         route = "music",
         title = "Music",
         icon = Icons.Default.MusicNote
-
     )
-    object Profile : Screen(
-        route = "profile/{userId}",
-        title = "Profil",
+    object Gkmc : Screen(
+        route = "gkmc",  // Simplified route without parameter
+        title = "GKMC",
         icon = Icons.Default.Person
-    ) {
-        fun createRoute(userId: Int) = "profile/$userId"
-    }
-    object Settings : Screen(
+    )
+    object Tpab : Screen(
         route = "settings",
-        title = "Paramètres",
+        title = "TPAB",
         icon = Icons.Default.Settings
     )
 
     companion object {
-        val items = listOf(Home, Profile, Settings)
+        val items = listOf(Home, Gkmc, Tpab)
     }
 }
 
@@ -249,7 +243,7 @@ fun AlbumItem(imageUrl: String, title: String) {
 
         /**(1..4).forEach {
             Button(onClick = {
-                navController.navigate(Screen.Profile.createRoute(userId = it))
+                navController.navigate(Screen.Gkmc.createRoute(userId = it))
                 {
                     // Évite l'empilement des destinations
                     popUpTo(navController.graph.startDestinationId) {
@@ -398,7 +392,7 @@ fun AppNavigation() {
                         Spacer(modifier = Modifier.width(28.dp))
 
                         Text(
-                            text = ("Kendrick Lamar"),
+                            text = "Kendrick Lamar",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -421,7 +415,7 @@ fun AppNavigation() {
         },
         bottomBar = {
             NavigationBar {
-                Screen.items.filter { it.title != "GKMC" }.forEach { screen ->
+                Screen.items.forEach { screen ->
                     NavigationBarItem(
                         icon = {
                             Icon(screen.icon, contentDescription = screen.title)
@@ -430,13 +424,10 @@ fun AppNavigation() {
                         selected = currentRoute == screen.route,
                         onClick = {
                             navController.navigate(screen.route) {
-                                // Évite l'empilement des destinations
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
                                 }
-                                // Évite les copies multiples de la même destination
                                 launchSingleTop = true
-                                // Restaure l'état lors de la reselection
                                 restoreState = true
                             }
                         }
@@ -453,14 +444,31 @@ fun AppNavigation() {
             composable(Screen.Home.route) {
                 HomeScreen(navController)
             }
-            composable(
-                route = Screen.Profile.route,
-                arguments = listOf(navArgument("userId") { type = NavType.IntType })
-            ) { backStackEntry ->
-                GkmcScreen()
+            composable(Screen.Gkmc.route) {
+                var nameSearch by remember { mutableStateOf("") }
+                var numberSearch by remember { mutableStateOf<Int?>(null) }
+
+                GkmcScreen(
+                    nameSearch = nameSearch,
+                    onNameChange = { nameSearch = it },
+                    numberSearch = numberSearch,
+                    onNumberChange = {
+                        numberSearch = it.toIntOrNull()
+                    }
+                )
             }
-            composable(Screen.Settings.route) {
-                TpabScreen()
+            composable(Screen.Tpab.route) {
+                var nameSearch by remember { mutableStateOf("") }
+                var numberSearch by remember { mutableStateOf<Int?>(null) }
+
+                TpabScreen(
+                    nameSearch = nameSearch,
+                    onNameChange = { nameSearch = it },
+                    numberSearch = numberSearch,
+                    onNumberChange = {
+                        numberSearch = it.toIntOrNull()
+                    }
+                )
             }
         }
     }
