@@ -1,7 +1,5 @@
 package com.example.project_2377432_2353116.screens
 
-import android.content.Intent
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,11 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/TpabScreen.kt
 import angelo.acheregwa.project_2377432.R
 import com.example.project_2377432_2353116.HorizontalImageCarousel
 import com.example.project_2377432_2353116.SearchTextFields
@@ -38,12 +36,21 @@ import com.example.project_2377432_2353116.TpabSongActivity
 import com.example.project_2377432_2353116.VerticalImageCarousel
 import com.example.project_2377432_2353116.data.TpabSong
 import com.example.project_2377432_2353116.data.getTpabSongs
+=======
+import com.example.project_2377432.R
+import com.example.project_2377432.SearchTextFields
+import com.example.project_2377432.SongDataRow
+import com.example.project_2377432.VerticalImageCarousel
+import com.example.project_2377432.data.TpabSong
+import com.example.project_2377432.data.getTpabSongs
+
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/TpabScreen.kt
 
 /**
  * Composable affichant les données de base d'une chanson.
  */
 @Composable
-fun SongBasicData(song: TpabSong) {
+fun TpabSongBasicData(song: TpabSong) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
@@ -90,7 +97,7 @@ fun SongBasicData(song: TpabSong) {
  * Composable affichant les détails supplémentaires d'une chanson.
  */
 @Composable
-fun SongDetails(song: TpabSong) {
+fun TpabSongDetails(song: TpabSong) {
     Row(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -129,55 +136,66 @@ fun TpabSongCard(
     song: TpabSong,
     expandable: Boolean = false,
     clickable: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (TpabSong) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(expandable) }
-
-    val context = LocalContext.current
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(8.dp)
             .clickable {
                 if (clickable) {
-                    val intent = Intent(context, TpabSongActivity::class.java)
-                    intent.putExtra("song", song)
-                    context.startActivity(intent)
+                    onClick(song)
                 }
             },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally // Center-align content
         ) {
-
-            // la mise en page a besoin d'être améliorée
-            if (expanded) {
-
-                if (isLandscape) {
-                    Row {
-                        SongBasicData(song)
-                        SongDetails(song)
-                    }
-                    HorizontalImageCarousel(photoResources = song.photoResources)
-                } else {
-                    SongBasicData(song)
-                    SongDetails(song)
-                    VerticalImageCarousel(photoResources = song.photoResources)
-                }
-            } else {
-                SongBasicData(song)
+            // Song Image
+            song.photoResources.firstOrNull()?.let { photoResource ->
+                Image(
+                    painter = painterResource(id = photoResource),
+                    contentDescription = song.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f) // Maintain a square aspect ratio
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Song Text Details
+            Text(
+                text = song.name,
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 1
+            )
+            Text(
+                text = "Album: ${song.album}",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "Length: ${song.length}",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
 
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/TpabScreen.kt
 /**
  * Composable représentant l'écran principal des chansons TPAB avec fonctionnalités de recherche et liste des chansons.
  *
@@ -186,12 +204,18 @@ fun TpabSongCard(
  * @param numberSearch Numéro de recherche (par exemple, position dans le classement).
  * @param onNumberChange Callback appelé lorsque le numéro de recherche change.
  */
+=======
+
+
+
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/TpabScreen.kt
 @Composable
 fun TpabScreen(
     nameSearch: String = "",
     onNameChange: (String) -> Unit = {},
     numberSearch: Int? = null,
-    onNumberChange: (String) -> Unit = {}
+    onNumberChange: (String) -> Unit = {},
+    onSongClick: (TpabSong) -> Unit = {}
 ) {
     // Filtre les chansons en fonction des critères de recherche
     val filteredSongs = getTpabSongs(name = nameSearch, number = numberSearch)
@@ -219,8 +243,13 @@ fun TpabScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(filteredSongs) { song ->
-                TpabSongCard(song = song, expandable = false)
+                TpabSongCard(
+                    song = song,
+                    expandable = false,
+                    onClick = { onSongClick(it) }
+                )
             }
         }
     }
 }
+

@@ -1,18 +1,18 @@
 package com.example.project_2377432_2353116.screens
 
-import android.content.Intent
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -33,12 +33,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/GkmcScreen.kt
 import angelo.acheregwa.project_2377432.R
 import com.example.project_2377432_2353116.GkmcSongActivity
 import com.example.project_2377432_2353116.HorizontalImageCarousel
@@ -52,8 +51,18 @@ import com.example.project_2377432_2353116.data.getGkmcSongs
  * Composable affichant les données de base d'une chanson GKMC.
  */
 
+=======
+import com.example.project_2377432.R
+import com.example.project_2377432.SearchTextFields
+import com.example.project_2377432.SongDataRow
+import com.example.project_2377432.VerticalImageCarousel
+import com.example.project_2377432.data.GkmcSong
+import com.example.project_2377432.data.getGkmcSongs
+
+
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/GkmcScreen.kt
 @Composable
-fun SongBasicData(song: GkmcSong) {
+fun GkmcSongBasicData(song: GkmcSong) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
@@ -100,7 +109,7 @@ fun SongBasicData(song: GkmcSong) {
  * Composable affichant les détails supplémentaires d'une chanson GKMC.
  */
 @Composable
-fun SongDetails(song: GkmcSong) {
+fun GkmcSongDetails(song: GkmcSong) {
     Row(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -139,56 +148,67 @@ fun GkmcSongCard(
     song: GkmcSong,
     expandable: Boolean = false,
     clickable: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (GkmcSong) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(expandable) }
-
-    val context = LocalContext.current
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(8.dp)
             .clickable {
                 if (clickable) {
-                    val intent = Intent(context, GkmcSongActivity::class.java)
-                    intent.putExtra("song", song)
-                    context.startActivity(intent)
+                    onClick(song)
                 }
             },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally // Center-align content
         ) {
-
-            // la mise en page a besoin d'être améliorée
-            if (expanded) {
-
-                if (isLandscape) {
-                    Row {
-                        SongBasicData(song)
-                        SongDetails(song)
-                    }
-                    HorizontalImageCarousel(photoResources = song.photoResources)
-                } else {
-                    SongBasicData(song)
-                    SongDetails(song)
-                    VerticalImageCarousel(photoResources = song.photoResources)
-                }
-            } else {
-                SongBasicData(song)
+            // Song Image
+            song.photoResources.firstOrNull()?.let { photoResource ->
+                Image(
+                    painter = painterResource(id = photoResource),
+                    contentDescription = song.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f) // Maintain a square aspect ratio
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Song Text Details
+            Text(
+                text = song.name,
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 1
+            )
+            Text(
+                text = "Album: ${song.album}",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "Length: ${song.length}",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
 
 
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/GkmcScreen.kt
 /**
  * Composable représentant l'écran principal des chansons GKMC avec fonctionnalités de recherche et liste des chansons.
  *
@@ -198,12 +218,17 @@ fun GkmcSongCard(
  * @param onNumberChange Callback appelé lorsque le numéro de recherche change.
  */
 @Preview
+=======
+
+
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/GkmcScreen.kt
 @Composable
 fun GkmcScreen(
     nameSearch: String = "",
     onNameChange: (String) -> Unit = {},
     numberSearch: Int? = null,
-    onNumberChange: (String) -> Unit = {}
+    onNumberChange: (String) -> Unit = {},
+    onSongClick: (GkmcSong) -> Unit = {}
 ) {
     // Filtrage des chansons en fonction des critères de recherche
     val filteredSongs = getGkmcSongs(name = nameSearch, number = numberSearch)
@@ -213,7 +238,6 @@ fun GkmcScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Search Fields at the Top
         SearchTextFields(
             nameSearch = nameSearch,
             onNameChange = onNameChange,
@@ -223,18 +247,19 @@ fun GkmcScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Use LazyVerticalGrid for the catalog layout
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 180.dp),
-            modifier = Modifier
-                .fillMaxSize(), // Ensure grid takes up the remaining space
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(filteredSongs) { song ->
-                GkmcSongCard(song = song, expandable = false)
+                GkmcSongCard(
+                    song = song,
+                    expandable = false,
+                    onClick = { onSongClick(it) }
+                )
             }
         }
     }
 }
-

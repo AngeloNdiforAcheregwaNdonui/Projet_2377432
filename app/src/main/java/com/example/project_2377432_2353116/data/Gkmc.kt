@@ -3,7 +3,7 @@ package com.example.project_2377432_2353116.data
 import android.content.Context
 import android.os.Parcelable
 import android.util.Log
-import angelo.acheregwa.project_2377432.R
+import com.example.project_2377432.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.parcelize.Parcelize

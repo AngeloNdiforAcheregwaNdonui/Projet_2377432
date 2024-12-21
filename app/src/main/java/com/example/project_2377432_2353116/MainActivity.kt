@@ -3,7 +3,6 @@ package com.example.project_2377432_2353116
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,8 +30,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -58,17 +57,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
 import com.example.project_2377432_2353116.screens.GkmcScreen
 import com.example.project_2377432_2353116.screens.TpabScreen
 import com.example.project_2377432_2353116.ui.theme.Project_2377432Theme
+=======
+import com.example.project_2377432.screens.GkmcScreen
+import com.example.project_2377432.screens.TpabScreen
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
 
 
 /**
@@ -83,12 +84,12 @@ sealed class Screen(
         route = "music",
         title = "Music",
         icon = Icons.Default.MusicNote
-
     )
-    object Profile : Screen(
-        route = "profile/{userId}",
-        title = "Profil",
+    object Gkmc : Screen(
+        route = "gkmc",  // Simplified route without parameter
+        title = "GKMC",
         icon = Icons.Default.Person
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
     ) {
 
         /**
@@ -97,15 +98,23 @@ sealed class Screen(
         fun createRoute(userId: Int) = "profile/$userId"
     }
     object Settings : Screen(
+=======
+    )
+    object Tpab : Screen(
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
         route = "settings",
-        title = "Paramètres",
+        title = "TPAB",
         icon = Icons.Default.Settings
     )
 
     companion object {
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
 
         // Liste les écrans pour la barre de navigation
         val items = listOf(Home, Profile, Settings)
+=======
+        val items = listOf(Home, Gkmc, Tpab)
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
     }
 }
 
@@ -113,12 +122,13 @@ sealed class Screen(
  * Represente l'activité principale de l'application.
  */
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            var isDarkTheme by remember { mutableStateOf(true) }
+            var darkTheme by remember { mutableStateOf(false) }
 
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
             // Applique le thème personnalisé
             Project_2377432Theme(darkTheme = isDarkTheme) {
                 Surface(
@@ -129,27 +139,52 @@ class MainActivity : ComponentActivity() {
                         floatingActionButton = {
                             // Bouton flottant pour basculer entre les thèmes clair et sombre
                             FloatingActionButton(onClick = { isDarkTheme = !isDarkTheme }) {
+=======
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = { Text(text = "Kendrick Lamar Songs") },
+                        actions = {
+                            // Theme Toggle Button in the Top Bar
+                            IconButton(onClick = { darkTheme = !darkTheme }) {
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
                                 Icon(
-                                    imageVector = if (isDarkTheme) Icons.Default.Brightness4 else Icons.Default.Brightness7,
-                                    contentDescription = stringResource(R.string.toggle)
+                                    imageVector = if (darkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7,
+                                    contentDescription = "Toggle Theme"
                                 )
-
                             }
                         }
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
                     ) { paddingValues ->
                         Box(modifier = Modifier.padding(paddingValues)) {
                             AppNavigation() // Gestion de la navigation de l'application
                         }
+=======
+                    )
+                },
+                content = { paddingValues ->
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        AppNavigation(darkTheme = darkTheme, onThemeChange = { darkTheme = !darkTheme })
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
                     }
                 }
-            }
+            )
         }
     }
 }
 
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
 /**
  * Represente l'écran d'accueil affichant des informations sur Kendrick Lamar.
  */
+=======
+
+>>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
 @Composable
 fun HomeScreen(navController: NavController) {
     LazyColumn(
@@ -270,7 +305,7 @@ fun AlbumItem(imageUrl: String, title: String) {
 
         /**(1..4).forEach {
             Button(onClick = {
-                navController.navigate(Screen.Profile.createRoute(userId = it))
+                navController.navigate(Screen.Gkmc.createRoute(userId = it))
                 {
                     // Évite l'empilement des destinations
                     popUpTo(navController.graph.startDestinationId) {
@@ -413,7 +448,7 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation() {
+fun AppNavigation(darkTheme: Boolean, onThemeChange: () -> Unit) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -436,7 +471,7 @@ fun AppNavigation() {
                         Spacer(modifier = Modifier.width(28.dp))
 
                         Text(
-                            text = ("Kendrick Lamar"),
+                            text = "Kendrick Lamar",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
@@ -459,7 +494,7 @@ fun AppNavigation() {
         },
         bottomBar = {
             NavigationBar {
-                Screen.items.filter { it.title != "GKMC" }.forEach { screen ->
+                Screen.items.forEach { screen ->
                     NavigationBarItem(
                         icon = {
                             Icon(screen.icon, contentDescription = screen.title)
@@ -468,13 +503,10 @@ fun AppNavigation() {
                         selected = currentRoute == screen.route,
                         onClick = {
                             navController.navigate(screen.route) {
-                                // Évite l'empilement des destinations
                                 popUpTo(navController.graph.startDestinationId) {
                                     saveState = true
                                 }
-                                // Évite les copies multiples de la même destination
                                 launchSingleTop = true
-                                // Restaure l'état lors de la reselection
                                 restoreState = true
                             }
                         }
@@ -493,14 +525,31 @@ fun AppNavigation() {
             composable(Screen.Home.route) {
                 HomeScreen(navController)
             }
-            composable(
-                route = Screen.Profile.route,
-                arguments = listOf(navArgument("userId") { type = NavType.IntType })
-            ) { backStackEntry ->
-                GkmcScreen()
+            composable(Screen.Gkmc.route) {
+                var nameSearch by remember { mutableStateOf("") }
+                var numberSearch by remember { mutableStateOf<Int?>(null) }
+
+                GkmcScreen(
+                    nameSearch = nameSearch,
+                    onNameChange = { nameSearch = it },
+                    numberSearch = numberSearch,
+                    onNumberChange = {
+                        numberSearch = it.toIntOrNull()
+                    }
+                )
             }
-            composable(Screen.Settings.route) {
-                TpabScreen()
+            composable(Screen.Tpab.route) {
+                var nameSearch by remember { mutableStateOf("") }
+                var numberSearch by remember { mutableStateOf<Int?>(null) }
+
+                TpabScreen(
+                    nameSearch = nameSearch,
+                    onNameChange = { nameSearch = it },
+                    numberSearch = numberSearch,
+                    onNumberChange = {
+                        numberSearch = it.toIntOrNull()
+                    }
+                )
             }
         }
     }

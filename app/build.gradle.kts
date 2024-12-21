@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "angelo.acheregwa.project_2377432"
+    namespace = "com.example.project_2377432"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "angelo.acheregwa.project_2377432"
-        minSdk = 24
-        targetSdk = 34
+        applicationId = "com.example.project_2377432"
+        minSdk = 21
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
