@@ -1,7 +1,5 @@
 package com.example.project_2377432.screens
 
-import android.content.Intent
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -33,15 +32,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.project_2377432.R
-import com.example.project_2377432.GkmcSongActivity
-import com.example.project_2377432.HorizontalImageCarousel
 import com.example.project_2377432.SearchTextFields
 import com.example.project_2377432.SongDataRow
 import com.example.project_2377432.VerticalImageCarousel
@@ -49,9 +43,8 @@ import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.data.getGkmcSongs
 
 
-
 @Composable
-fun SongBasicData(song: GkmcSong) {
+fun GkmcSongBasicData(song: GkmcSong) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
@@ -95,7 +88,7 @@ fun SongBasicData(song: GkmcSong) {
 }
 
 @Composable
-fun SongDetails(song: GkmcSong) {
+fun GkmcSongDetails(song: GkmcSong) {
     Row(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -126,62 +119,82 @@ fun GkmcSongCard(
     song: GkmcSong,
     expandable: Boolean = false,
     clickable: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (GkmcSong) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(expandable) }
-
-    val context = LocalContext.current
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(8.dp)
             .clickable {
                 if (clickable) {
-                    val intent = Intent(context, GkmcSongActivity::class.java)
-                    intent.putExtra("song", song)
-                    context.startActivity(intent)
+                    onClick(song)
                 }
             },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-
-            // la mise en page a besoin d'être améliorée
+            // Compact or expanded content
             if (expanded) {
-
-                if (isLandscape) {
-                    Row {
-                        SongBasicData(song)
-                        SongDetails(song)
-                    }
-                    HorizontalImageCarousel(photoResources = song.photoResources)
-                } else {
-                    SongBasicData(song)
-                    SongDetails(song)
-                    VerticalImageCarousel(photoResources = song.photoResources)
-                }
+                GkmcSongBasicData(song)
+                Spacer(modifier = Modifier.height(8.dp))
+                GkmcSongDetails(song)
+                VerticalImageCarousel(photoResources = song.photoResources)
             } else {
-                SongBasicData(song)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Song Image
+                    song.photoResources.firstOrNull()?.let { photoResource ->
+                        Image(
+                            painter = painterResource(id = photoResource),
+                            contentDescription = song.name,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // Song Info
+                    Column {
+                        Text(
+                            text = song.name,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = "Album: ${song.album}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "Length: ${song.length}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
             }
         }
     }
 }
 
-@Preview
+
+
 @Composable
 fun GkmcScreen(
     nameSearch: String = "",
     onNameChange: (String) -> Unit = {},
     numberSearch: Int? = null,
-    onNumberChange: (String) -> Unit = {}
+    onNumberChange: (String) -> Unit = {},
+    onSongClick: (GkmcSong) -> Unit = {}
 ) {
     val filteredSongs = getGkmcSongs(name = nameSearch, number = numberSearch)
 
@@ -190,7 +203,6 @@ fun GkmcScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Search Fields at the Top
         SearchTextFields(
             nameSearch = nameSearch,
             onNameChange = onNameChange,
@@ -200,18 +212,19 @@ fun GkmcScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Use LazyVerticalGrid for the catalog layout
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 180.dp),
-            modifier = Modifier
-                .fillMaxSize(), // Ensure grid takes up the remaining space
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(filteredSongs) { song ->
-                GkmcSongCard(song = song, expandable = false)
+                GkmcSongCard(
+                    song = song,
+                    expandable = false,
+                    onClick = { onSongClick(it) }
+                )
             }
         }
     }
 }
-

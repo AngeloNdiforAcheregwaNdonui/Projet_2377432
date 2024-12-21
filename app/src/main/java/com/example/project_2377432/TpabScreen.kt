@@ -1,7 +1,5 @@
 package com.example.project_2377432.screens
 
-import android.content.Intent
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,25 +23,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.project_2377432.R
-import com.example.project_2377432.GkmcSongActivity
-import com.example.project_2377432.HorizontalImageCarousel
 import com.example.project_2377432.SearchTextFields
 import com.example.project_2377432.SongDataRow
-import com.example.project_2377432.TpabSongActivity
 import com.example.project_2377432.VerticalImageCarousel
-import com.example.project_2377432.data.GkmcSong
 import com.example.project_2377432.data.TpabSong
 import com.example.project_2377432.data.getTpabSongs
 
 
 @Composable
-fun SongBasicData(song: TpabSong) {
+fun TpabSongBasicData(song: TpabSong) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
@@ -87,7 +79,7 @@ fun SongBasicData(song: TpabSong) {
 }
 
 @Composable
-fun SongDetails(song: TpabSong) {
+fun TpabSongDetails(song: TpabSong) {
     Row(
         modifier = Modifier.padding(8.dp)
     ) {
@@ -118,61 +110,82 @@ fun TpabSongCard(
     song: TpabSong,
     expandable: Boolean = false,
     clickable: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (TpabSong) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(expandable) }
-
-    val context = LocalContext.current
 
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(8.dp)
             .clickable {
                 if (clickable) {
-                    val intent = Intent(context, TpabSongActivity::class.java)
-                    intent.putExtra("song", song)
-                    context.startActivity(intent)
+                    onClick(song)
                 }
             },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
-        val configuration = LocalConfiguration.current
-        val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-
-            // la mise en page a besoin d'être améliorée
+            // Compact or expanded content
             if (expanded) {
-
-                if (isLandscape) {
-                    Row {
-                        SongBasicData(song)
-                        SongDetails(song)
-                    }
-                    HorizontalImageCarousel(photoResources = song.photoResources)
-                } else {
-                    SongBasicData(song)
-                    SongDetails(song)
-                    VerticalImageCarousel(photoResources = song.photoResources)
-                }
+                TpabSongBasicData(song)
+                Spacer(modifier = Modifier.height(8.dp))
+                TpabSongDetails(song)
+                VerticalImageCarousel(photoResources = song.photoResources)
             } else {
-                SongBasicData(song)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Song Image
+                    song.photoResources.firstOrNull()?.let { photoResource ->
+                        Image(
+                            painter = painterResource(id = photoResource),
+                            contentDescription = song.name,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // Song Info
+                    Column {
+                        Text(
+                            text = song.name,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = "Album: ${song.album}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "Length: ${song.length}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
             }
         }
     }
 }
+
+
 
 @Composable
 fun TpabScreen(
     nameSearch: String = "",
     onNameChange: (String) -> Unit = {},
     numberSearch: Int? = null,
-    onNumberChange: (String) -> Unit = {}
+    onNumberChange: (String) -> Unit = {},
+    onSongClick: (TpabSong) -> Unit = {}
 ) {
     val filteredSongs = getTpabSongs(name = nameSearch, number = numberSearch)
 
@@ -197,8 +210,13 @@ fun TpabScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(filteredSongs) { song ->
-                TpabSongCard(song = song, expandable = false)
+                TpabSongCard(
+                    song = song,
+                    expandable = false,
+                    onClick = { onSongClick(it) }
+                )
             }
         }
     }
 }
+
