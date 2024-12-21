@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.project_2377432.R
 import com.example.project_2377432.SearchTextFields
@@ -139,52 +141,45 @@ fun GkmcSongCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally // Center-align content
         ) {
-            // Compact or expanded content
-            if (expanded) {
-                GkmcSongBasicData(song)
-                Spacer(modifier = Modifier.height(8.dp))
-                GkmcSongDetails(song)
-                VerticalImageCarousel(photoResources = song.photoResources)
-            } else {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    // Song Image
-                    song.photoResources.firstOrNull()?.let { photoResource ->
-                        Image(
-                            painter = painterResource(id = photoResource),
-                            contentDescription = song.name,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(RoundedCornerShape(8.dp)),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    // Song Info
-                    Column {
-                        Text(
-                            text = song.name,
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = "Album: ${song.album}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "Length: ${song.length}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
+            // Song Image
+            song.photoResources.firstOrNull()?.let { photoResource ->
+                Image(
+                    painter = painterResource(id = photoResource),
+                    contentDescription = song.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f) // Maintain a square aspect ratio
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
+                )
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Song Text Details
+            Text(
+                text = song.name,
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 1
+            )
+            Text(
+                text = "Album: ${song.album}",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "Length: ${song.length}",
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
+
 
 
 
