@@ -24,6 +24,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness7
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.House
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
@@ -72,19 +74,19 @@ sealed class Screen(
     val icon: ImageVector
 ) {
     object Home : Screen(
-        route = "music",
-        title = "Music",
+        route = "discography",
+        title = "Discography",
         icon = Icons.Default.MusicNote
     )
     object Gkmc : Screen(
         route = "gkmc",  // Simplified route without parameter
         title = "GKMC",
-        icon = Icons.Default.Person
+        icon = Icons.Default.DirectionsCar
     )
     object Tpab : Screen(
-        route = "settings",
+        route = "tpab",
         title = "TPAB",
-        icon = Icons.Default.Settings
+        icon = Icons.Default.House
     )
 
     companion object {
@@ -104,7 +106,6 @@ class MainActivity : ComponentActivity() {
                     TopAppBar(
                         title = { Text(text = "Kendrick Lamar Songs") },
                         actions = {
-                            // Theme Toggle Button in the Top Bar
                             IconButton(onClick = { darkTheme = !darkTheme }) {
                                 Icon(
                                     imageVector = if (darkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7,
