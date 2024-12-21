@@ -24,6 +24,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Brightness4
 import androidx.compose.material.icons.filled.Brightness7
+import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.filled.House
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
@@ -81,13 +83,14 @@ sealed class Screen(
     val icon: ImageVector
 ) {
     object Home : Screen(
-        route = "music",
-        title = "Music",
+        route = "discography",
+        title = "Discography",
         icon = Icons.Default.MusicNote
     )
     object Gkmc : Screen(
         route = "gkmc",  // Simplified route without parameter
         title = "GKMC",
+<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
         icon = Icons.Default.Person
 <<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
     ) {
@@ -103,8 +106,14 @@ sealed class Screen(
     object Tpab : Screen(
 >>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
         route = "settings",
+=======
+        icon = Icons.Default.DirectionsCar
+    )
+    object Tpab : Screen(
+        route = "tpab",
+>>>>>>> dd4a6c4ba77d68d6cadc2ea1131e691d7a7bb4f1:app/src/main/java/com/example/project_2377432/MainActivity.kt
         title = "TPAB",
-        icon = Icons.Default.Settings
+        icon = Icons.Default.House
     )
 
     companion object {
@@ -145,7 +154,6 @@ class MainActivity : ComponentActivity() {
                     TopAppBar(
                         title = { Text(text = "Kendrick Lamar Songs") },
                         actions = {
-                            // Theme Toggle Button in the Top Bar
                             IconButton(onClick = { darkTheme = !darkTheme }) {
 >>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
                                 Icon(
