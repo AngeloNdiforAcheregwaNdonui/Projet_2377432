@@ -90,6 +90,8 @@ fun GkmcSongBasicData(song: GkmcSong) {
     }
 }
 
+/** Composable affichant les détails supplémentaires d'une chanson GKMC.
+*/
 @Composable
 fun GkmcSongDetails(song: GkmcSong) {
     Row(
