@@ -1,4 +1,4 @@
-package com.example.project_2377432.screens
+package com.example.project_2377432_2353116.screens
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -40,15 +40,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import angelo.acheregwa.project_2377432.R
-import com.example.project_2377432.GkmcSongActivity
-import com.example.project_2377432.HorizontalImageCarousel
-import com.example.project_2377432.SearchTextFields
-import com.example.project_2377432.SongDataRow
-import com.example.project_2377432.VerticalImageCarousel
-import com.example.project_2377432.data.GkmcSong
-import com.example.project_2377432.data.getGkmcSongs
+import com.example.project_2377432_2353116.GkmcSongActivity
+import com.example.project_2377432_2353116.HorizontalImageCarousel
+import com.example.project_2377432_2353116.SearchTextFields
+import com.example.project_2377432_2353116.SongDataRow
+import com.example.project_2377432_2353116.VerticalImageCarousel
+import com.example.project_2377432_2353116.data.GkmcSong
+import com.example.project_2377432_2353116.data.getGkmcSongs
 
-
+/**
+ * Composable affichant les données de base d'une chanson GKMC.
+ */
 
 @Composable
 fun SongBasicData(song: GkmcSong) {
@@ -94,6 +96,9 @@ fun SongBasicData(song: GkmcSong) {
     }
 }
 
+/**
+ * Composable affichant les détails supplémentaires d'une chanson GKMC.
+ */
 @Composable
 fun SongDetails(song: GkmcSong) {
     Row(
@@ -121,6 +126,14 @@ fun SongDetails(song: GkmcSong) {
     }
 }
 
+/**
+ * Composable représentant une carte de chanson GKMC avec des informations de base et des détails extensibles.
+ *
+ * @param song Instance de [GkmcSong] contenant les informations de la chanson.
+ * @param expandable Indique si la carte est extensible pour afficher plus de détails.
+ * @param clickable Indique si la carte est cliquable pour naviguer vers les détails de la chanson.
+ * @param modifier Modificateur pour personnaliser l'apparence de la carte.
+ */
 @Composable
 fun GkmcSongCard(
     song: GkmcSong,
@@ -175,6 +188,15 @@ fun GkmcSongCard(
     }
 }
 
+
+/**
+ * Composable représentant l'écran principal des chansons GKMC avec fonctionnalités de recherche et liste des chansons.
+ *
+ * @param nameSearch Texte de recherche par nom de chanson.
+ * @param onNameChange Callback appelé lorsque le texte de recherche par nom change.
+ * @param numberSearch Numéro de recherche (par exemple, position dans le classement).
+ * @param onNumberChange Callback appelé lorsque le numéro de recherche change.
+ */
 @Preview
 @Composable
 fun GkmcScreen(
@@ -183,6 +205,7 @@ fun GkmcScreen(
     numberSearch: Int? = null,
     onNumberChange: (String) -> Unit = {}
 ) {
+    // Filtrage des chansons en fonction des critères de recherche
     val filteredSongs = getGkmcSongs(name = nameSearch, number = numberSearch)
 
     Column(

@@ -1,4 +1,4 @@
-package com.example.project_2377432.screens
+package com.example.project_2377432_2353116.screens
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -31,17 +31,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import angelo.acheregwa.project_2377432.R
-import com.example.project_2377432.GkmcSongActivity
-import com.example.project_2377432.HorizontalImageCarousel
-import com.example.project_2377432.SearchTextFields
-import com.example.project_2377432.SongDataRow
-import com.example.project_2377432.TpabSongActivity
-import com.example.project_2377432.VerticalImageCarousel
-import com.example.project_2377432.data.GkmcSong
-import com.example.project_2377432.data.TpabSong
-import com.example.project_2377432.data.getTpabSongs
+import com.example.project_2377432_2353116.HorizontalImageCarousel
+import com.example.project_2377432_2353116.SearchTextFields
+import com.example.project_2377432_2353116.SongDataRow
+import com.example.project_2377432_2353116.TpabSongActivity
+import com.example.project_2377432_2353116.VerticalImageCarousel
+import com.example.project_2377432_2353116.data.TpabSong
+import com.example.project_2377432_2353116.data.getTpabSongs
 
-
+/**
+ * Composable affichant les données de base d'une chanson.
+ */
 @Composable
 fun SongBasicData(song: TpabSong) {
     Row(
@@ -86,6 +86,9 @@ fun SongBasicData(song: TpabSong) {
     }
 }
 
+/**
+ * Composable affichant les détails supplémentaires d'une chanson.
+ */
 @Composable
 fun SongDetails(song: TpabSong) {
     Row(
@@ -113,6 +116,14 @@ fun SongDetails(song: TpabSong) {
     }
 }
 
+/**
+ * Composable représentant une carte de chanson avec des informations de base et des détails extensibles.
+ *
+ * @param song Instance de [TpabSong] contenant les informations de la chanson.
+ * @param expandable Indique si la carte est extensible pour afficher plus de détails.
+ * @param clickable Indique si la carte est cliquable pour naviguer vers les détails de la chanson.
+ * @param modifier Modificateur pour personnaliser l'apparence de la carte.
+ */
 @Composable
 fun TpabSongCard(
     song: TpabSong,
@@ -167,6 +178,14 @@ fun TpabSongCard(
     }
 }
 
+/**
+ * Composable représentant l'écran principal des chansons TPAB avec fonctionnalités de recherche et liste des chansons.
+ *
+ * @param nameSearch Texte de recherche par nom de chanson.
+ * @param onNameChange Callback appelé lorsque le texte de recherche par nom change.
+ * @param numberSearch Numéro de recherche (par exemple, position dans le classement).
+ * @param onNumberChange Callback appelé lorsque le numéro de recherche change.
+ */
 @Composable
 fun TpabScreen(
     nameSearch: String = "",
@@ -174,6 +193,7 @@ fun TpabScreen(
     numberSearch: Int? = null,
     onNumberChange: (String) -> Unit = {}
 ) {
+    // Filtre les chansons en fonction des critères de recherche
     val filteredSongs = getTpabSongs(name = nameSearch, number = numberSearch)
 
     Column(
@@ -181,6 +201,7 @@ fun TpabScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        // Champs de recherche pour le nom et le numéro
         SearchTextFields(
             nameSearch = nameSearch,
             onNameChange = onNameChange,
@@ -190,6 +211,7 @@ fun TpabScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Grille verticale affichant les cartes des chansons filtrées
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 180.dp),
             modifier = Modifier.fillMaxSize(),

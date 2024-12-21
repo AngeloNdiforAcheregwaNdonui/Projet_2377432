@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">El Genio de Kendrick Lamar</string>
+    <string name="name_label">Nombre</string>
+    <string name="first_photo">Arte del álbum de %1$s</string>
+    <string name="song_photo">Foto de la canción %1$d</string>
+    <string name="position">ID</string>
+    <string name="songwriters">Compositores</string>
+    <string name="producers">Productores</string>
+    <string name="grammy_nominations">Nominaciones a los Grammy</string>
+    <string name="grammy_wins">Ganancias en los Grammy</string>
+    <string name="total_grammys">Total de Grammys</string>
+    <string name="is_classic">¿Es clásico?</string>
+    <string name="length">Duración</string>
+    <string name="album">Álbum</string>
+    <string name="player_not_found">¡Reproductor no encontrado!</string>
+    <string name="vertical_carousel_label">Carrusel de imágenes vertical</string>
+    <string name="horizontal_carousel_label">Carrusel de imágenes horizontal</string>
+    <string name="no_data_available">No hay datos disponibles</string>
+    <string name="toggle">Cambiar tema</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.example.project_2377432
+package com.example.project_2377432_2353116
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,7 +28,6 @@ import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -67,12 +66,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import angelo.acheregwa.project_2377432.R
 import coil.compose.AsyncImage
-import com.example.project_2377432.data.GkmcSong
-import com.example.project_2377432.screens.GkmcScreen
-import com.example.project_2377432.screens.TpabScreen
-import com.example.project_2377432.ui.theme.Project_2377432Theme
+import com.example.project_2377432_2353116.screens.GkmcScreen
+import com.example.project_2377432_2353116.screens.TpabScreen
+import com.example.project_2377432_2353116.ui.theme.Project_2377432Theme
 
 
+/**
+ * Définie les différentes destinations de navigation dans l'application.
+ */
 sealed class Screen(
     val route: String,
     val title: String,
@@ -89,6 +90,10 @@ sealed class Screen(
         title = "Profil",
         icon = Icons.Default.Person
     ) {
+
+        /**
+         * Crée une route pour un utilisateur spécifique en utilisant son ID.
+         */
         fun createRoute(userId: Int) = "profile/$userId"
     }
     object Settings : Screen(
@@ -98,10 +103,15 @@ sealed class Screen(
     )
 
     companion object {
+
+        // Liste les écrans pour la barre de navigation
         val items = listOf(Home, Profile, Settings)
     }
 }
 
+/**
+ * Represente l'activité principale de l'application.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,6 +119,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             var isDarkTheme by remember { mutableStateOf(true) }
 
+            // Applique le thème personnalisé
             Project_2377432Theme(darkTheme = isDarkTheme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -116,6 +127,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         floatingActionButton = {
+                            // Bouton flottant pour basculer entre les thèmes clair et sombre
                             FloatingActionButton(onClick = { isDarkTheme = !isDarkTheme }) {
                                 Icon(
                                     imageVector = if (isDarkTheme) Icons.Default.Brightness4 else Icons.Default.Brightness7,
@@ -126,7 +138,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { paddingValues ->
                         Box(modifier = Modifier.padding(paddingValues)) {
-                            AppNavigation()
+                            AppNavigation() // Gestion de la navigation de l'application
                         }
                     }
                 }
@@ -135,6 +147,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+/**
+ * Represente l'écran d'accueil affichant des informations sur Kendrick Lamar.
+ */
 @Composable
 fun HomeScreen(navController: NavController) {
     LazyColumn(
@@ -143,6 +158,7 @@ fun HomeScreen(navController: NavController) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // Section de description
         item {
             Text(
                 "Kendrick Lamar Duckworth is an American rapper and songwriter. " +
@@ -154,6 +170,7 @@ fun HomeScreen(navController: NavController) {
             )
         }
 
+        // Section avec image et détails biographiques
         item {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
@@ -192,6 +209,7 @@ fun HomeScreen(navController: NavController) {
             }
         }
 
+        // Section avec commentaires sur ses albums
         item {
             Text(
                 "Good Kid, M.A.A.D City and To Pimp a Butterfly stand out as defining works that showcase his unparalleled storytelling and artistic vision",
@@ -224,6 +242,9 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
+/**
+ * Composable représentant un élément d'album avec une image et un titre.
+ */
 @Composable
 fun AlbumItem(imageUrl: String, title: String) {
     Column(
@@ -267,6 +288,9 @@ fun AlbumItem(imageUrl: String, title: String) {
         }**/
 
 
+/**
+ * Composable pour les champs de recherche avec un champ pour le nom et un pour le numéro.
+ */
 @Composable
         fun SearchTextFields(
             nameSearch: String,
@@ -294,6 +318,10 @@ fun AlbumItem(imageUrl: String, title: String) {
             }
         }
 
+
+/**
+ * Composable représentant une ligne de données avec une étiquette et une valeur.
+ */
 @Composable
 fun SongDataRow(labelRes: Int, value: String) {
     Row(
@@ -313,6 +341,9 @@ fun SongDataRow(labelRes: Int, value: String) {
     }
 }
 
+/**
+ * Composable pour un carrousel d'images vertical.
+ */
 @Composable
 fun VerticalImageCarousel(photoResources: List<Int>) {
     Card(
@@ -343,6 +374,9 @@ fun VerticalImageCarousel(photoResources: List<Int>) {
     }
 }
 
+/**
+ * Composable pour un carrousel d'images horizontal.
+ */
 @Composable
 fun HorizontalImageCarousel(photoResources: List<Int>) {
     Card(
@@ -373,6 +407,10 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
     }
 }
 
+
+/**
+ * Composable principal gérant la navigation entre les différents écrans de l'application.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation() {
@@ -445,6 +483,8 @@ fun AppNavigation() {
             }
         }
     ) { paddingValues ->
+
+        // Définit les différentes routes de navigation
         NavHost(
             navController = navController,
             startDestination = Screen.Home.route,

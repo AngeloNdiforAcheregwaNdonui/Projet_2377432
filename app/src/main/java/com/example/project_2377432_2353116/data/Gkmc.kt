@@ -1,4 +1,4 @@
-package com.example.project_2377432.data
+package com.example.project_2377432_2353116.data
 
 import android.content.Context
 import android.os.Parcelable

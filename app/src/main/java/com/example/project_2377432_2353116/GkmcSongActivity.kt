@@ -1,4 +1,4 @@
-package com.example.project_2377432
+package com.example.project_2377432_2353116
 
 import android.os.Build
 import android.os.Bundle
@@ -23,15 +23,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import angelo.acheregwa.project_2377432.R
-import com.example.project_2377432.data.TpabSong
-import com.example.project_2377432.screens.TpabSongCard
+import com.example.project_2377432_2353116.data.GkmcSong
+import com.example.project_2377432_2353116.screens.GkmcSongCard
 
-class TpabSongActivity : ComponentActivity() {
+/**
+ * Activité affichant les détails d'une chanson GKMC.
+ *
+ * Cette activité reçoit un objet [GkmcSong] via les extras de l'intention et affiche ses détails
+ * en utilisant des composables Jetpack Compose.
+ */
+class GkmcSongActivity : ComponentActivity() {
+    /**
+     * Méthode appelée lors de la création de l'activité.
+     *
+     * @param savedInstanceState État précédemment enregistré de l'activité, ou null.
+     */
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val song = intent.getParcelableExtra("song", TpabSong::class.java)
+        val song = intent.getParcelableExtra("song", GkmcSong::class.java)
 
         setContent {
             Scaffold(
@@ -39,15 +50,18 @@ class TpabSongActivity : ComponentActivity() {
                 topBar = {
                     TopAppBar(
                         title = {
+                            // Utilisation d'un Box pour superposer le bouton et le titre
                             Box(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
+                                // Bouton pour terminer l'activité et revenir à l'écran précédent
                                 Button(
                                     onClick = { finish() },
                                     modifier = Modifier.align(Alignment.BottomStart)
                                 ) {
                                     Icon(Icons.Default.Done, "done")
                                 }
+                                // Titre centré de la barre d'application
                                 Text(
                                     text = stringResource(R.string.app_name),
                                     style = MaterialTheme.typography.headlineMedium,
@@ -66,7 +80,8 @@ class TpabSongActivity : ComponentActivity() {
                         .padding(innerPadding)
                 ) {
                     if (song != null)
-                        TpabSongCard(
+                    // Affiche la carte de la chanson avec des détails extensibles
+                        GkmcSongCard(
                             song = song,
                             expandable = true,
                             clickable = false
