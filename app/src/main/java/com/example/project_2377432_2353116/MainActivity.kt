@@ -1,4 +1,5 @@
-package com.example.project_2377432_2353116
+
+package com.example.project_2377432
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,8 +28,6 @@ import androidx.compose.material.icons.filled.Brightness7
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.House
 import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.Album
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,19 +63,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-import com.example.project_2377432_2353116.screens.GkmcScreen
-import com.example.project_2377432_2353116.screens.TpabScreen
-import com.example.project_2377432_2353116.ui.theme.Project_2377432Theme
-=======
 import com.example.project_2377432.screens.GkmcScreen
 import com.example.project_2377432.screens.TpabScreen
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
 
 
-/**
- * Définie les différentes destinations de navigation dans l'application.
- */
 sealed class Screen(
     val route: String,
     val title: String,
@@ -90,46 +80,19 @@ sealed class Screen(
     object Gkmc : Screen(
         route = "gkmc",  // Simplified route without parameter
         title = "GKMC",
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-        icon = Icons.Default.Person
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-    ) {
-
-        /**
-         * Crée une route pour un utilisateur spécifique en utilisant son ID.
-         */
-        fun createRoute(userId: Int) = "profile/$userId"
-    }
-    object Settings : Screen(
-=======
-    )
-    object Tpab : Screen(
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
-        route = "settings",
-=======
         icon = Icons.Default.DirectionsCar
     )
     object Tpab : Screen(
         route = "tpab",
->>>>>>> dd4a6c4ba77d68d6cadc2ea1131e691d7a7bb4f1:app/src/main/java/com/example/project_2377432/MainActivity.kt
         title = "TPAB",
         icon = Icons.Default.House
     )
 
     companion object {
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-
-        // Liste les écrans pour la barre de navigation
-        val items = listOf(Home, Profile, Settings)
-=======
         val items = listOf(Home, Gkmc, Tpab)
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
     }
 }
 
-/**
- * Represente l'activité principale de l'application.
- */
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,37 +100,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             var darkTheme by remember { mutableStateOf(false) }
 
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-            // Applique le thème personnalisé
-            Project_2377432Theme(darkTheme = isDarkTheme) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Scaffold(
-                        floatingActionButton = {
-                            // Bouton flottant pour basculer entre les thèmes clair et sombre
-                            FloatingActionButton(onClick = { isDarkTheme = !isDarkTheme }) {
-=======
             Scaffold(
                 topBar = {
                     TopAppBar(
                         title = { Text(text = "Kendrick Lamar Songs") },
                         actions = {
                             IconButton(onClick = { darkTheme = !darkTheme }) {
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
                                 Icon(
                                     imageVector = if (darkTheme) Icons.Filled.Brightness4 else Icons.Filled.Brightness7,
                                     contentDescription = "Toggle Theme"
                                 )
                             }
                         }
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-                    ) { paddingValues ->
-                        Box(modifier = Modifier.padding(paddingValues)) {
-                            AppNavigation() // Gestion de la navigation de l'application
-                        }
-=======
                     )
                 },
                 content = { paddingValues ->
@@ -178,7 +122,6 @@ class MainActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         AppNavigation(darkTheme = darkTheme, onThemeChange = { darkTheme = !darkTheme })
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
                     }
                 }
             )
@@ -186,13 +129,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/MainActivity.kt
-/**
- * Represente l'écran d'accueil affichant des informations sur Kendrick Lamar.
- */
-=======
 
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/MainActivity.kt
 @Composable
 fun HomeScreen(navController: NavController) {
     LazyColumn(
@@ -201,7 +138,6 @@ fun HomeScreen(navController: NavController) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // Section de description
         item {
             Text(
                 "Kendrick Lamar Duckworth is an American rapper and songwriter. " +
@@ -213,7 +149,6 @@ fun HomeScreen(navController: NavController) {
             )
         }
 
-        // Section avec image et détails biographiques
         item {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
@@ -252,7 +187,6 @@ fun HomeScreen(navController: NavController) {
             }
         }
 
-        // Section avec commentaires sur ses albums
         item {
             Text(
                 "Good Kid, M.A.A.D City and To Pimp a Butterfly stand out as defining works that showcase his unparalleled storytelling and artistic vision",
@@ -285,9 +219,6 @@ fun HomeScreen(navController: NavController) {
     }
 }
 
-/**
- * Composable représentant un élément d'album avec une image et un titre.
- */
 @Composable
 fun AlbumItem(imageUrl: String, title: String) {
     Column(
@@ -311,60 +242,53 @@ fun AlbumItem(imageUrl: String, title: String) {
     }
 }
 
-        /**(1..4).forEach {
-            Button(onClick = {
-                navController.navigate(Screen.Gkmc.createRoute(userId = it))
-                {
-                    // Évite l'empilement des destinations
-                    popUpTo(navController.graph.startDestinationId) {
-                        saveState = true
-                    }
-                    // Évite les copies multiples de la même destination
-                    launchSingleTop = true
-                    // Restaure l'état lors de la reselection
-                    restoreState = false
-                }
+/**(1..4).forEach {
+Button(onClick = {
+navController.navigate(Screen.Gkmc.createRoute(userId = it))
+{
+// Évite l'empilement des destinations
+popUpTo(navController.graph.startDestinationId) {
+saveState = true
+}
+// Évite les copies multiples de la même destination
+launchSingleTop = true
+// Restaure l'état lors de la reselection
+restoreState = false
+}
 
-            }) {
-                Text(it.toString())
-            }
-        }**/
+}) {
+Text(it.toString())
+}
+}**/
 
 
-/**
- * Composable pour les champs de recherche avec un champ pour le nom et un pour le numéro.
- */
 @Composable
-        fun SearchTextFields(
-            nameSearch: String,
-            onNameChange: (String) -> Unit,
-            numberSearch: Int?,
-            onNumberChange: (String) -> Unit
-        ) {
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                TextField(
-                    value = nameSearch,
-                    label = { Text(text = stringResource(R.string.name_label)) },
-                    onValueChange = onNameChange,
-                    modifier = Modifier
-                        .fillMaxWidth(0.67f)
-                        .padding(start = 20.dp)
-                )
-                TextField(
-                    value = (numberSearch ?: "").toString(),
-                    label = { Text(text = stringResource(R.string.position)) },
-                    onValueChange = onNumberChange,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 5.dp, end = 20.dp)
-                )
-            }
-        }
+fun SearchTextFields(
+    nameSearch: String,
+    onNameChange: (String) -> Unit,
+    numberSearch: Int?,
+    onNumberChange: (String) -> Unit
+) {
+    Row(modifier = Modifier.padding(top = 10.dp)) {
+        TextField(
+            value = nameSearch,
+            label = { Text(text = stringResource(R.string.name_label)) },
+            onValueChange = onNameChange,
+            modifier = Modifier
+                .fillMaxWidth(0.67f)
+                .padding(start = 20.dp)
+        )
+        TextField(
+            value = (numberSearch ?: "").toString(),
+            label = { Text(text = stringResource(R.string.position)) },
+            onValueChange = onNumberChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 5.dp, end = 20.dp)
+        )
+    }
+}
 
-
-/**
- * Composable représentant une ligne de données avec une étiquette et une valeur.
- */
 @Composable
 fun SongDataRow(labelRes: Int, value: String) {
     Row(
@@ -384,9 +308,6 @@ fun SongDataRow(labelRes: Int, value: String) {
     }
 }
 
-/**
- * Composable pour un carrousel d'images vertical.
- */
 @Composable
 fun VerticalImageCarousel(photoResources: List<Int>) {
     Card(
@@ -417,9 +338,6 @@ fun VerticalImageCarousel(photoResources: List<Int>) {
     }
 }
 
-/**
- * Composable pour un carrousel d'images horizontal.
- */
 @Composable
 fun HorizontalImageCarousel(photoResources: List<Int>) {
     Card(
@@ -450,10 +368,6 @@ fun HorizontalImageCarousel(photoResources: List<Int>) {
     }
 }
 
-
-/**
- * Composable principal gérant la navigation entre les différents écrans de l'application.
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(darkTheme: Boolean, onThemeChange: () -> Unit) {
@@ -523,8 +437,6 @@ fun AppNavigation(darkTheme: Boolean, onThemeChange: () -> Unit) {
             }
         }
     ) { paddingValues ->
-
-        // Définit les différentes routes de navigation
         NavHost(
             navController = navController,
             startDestination = Screen.Home.route,

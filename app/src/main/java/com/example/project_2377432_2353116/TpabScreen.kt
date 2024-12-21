@@ -1,4 +1,5 @@
-package com.example.project_2377432_2353116.screens
+
+package com.example.project_2377432.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,28 +28,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/TpabScreen.kt
-import angelo.acheregwa.project_2377432.R
-import com.example.project_2377432_2353116.HorizontalImageCarousel
-import com.example.project_2377432_2353116.SearchTextFields
-import com.example.project_2377432_2353116.SongDataRow
-import com.example.project_2377432_2353116.TpabSongActivity
-import com.example.project_2377432_2353116.VerticalImageCarousel
-import com.example.project_2377432_2353116.data.TpabSong
-import com.example.project_2377432_2353116.data.getTpabSongs
-=======
 import com.example.project_2377432.R
 import com.example.project_2377432.SearchTextFields
 import com.example.project_2377432.SongDataRow
 import com.example.project_2377432.VerticalImageCarousel
-import com.example.project_2377432.data.TpabSong
-import com.example.project_2377432.data.getTpabSongs
+import com.example.project_2377432_2353116.data.TpabSong
+import com.example.project_2377432_2353116.data.getTpabSongs
 
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/TpabScreen.kt
 
-/**
- * Composable affichant les données de base d'une chanson.
- */
 @Composable
 fun TpabSongBasicData(song: TpabSong) {
     Row(
@@ -93,9 +80,6 @@ fun TpabSongBasicData(song: TpabSong) {
     }
 }
 
-/**
- * Composable affichant les détails supplémentaires d'une chanson.
- */
 @Composable
 fun TpabSongDetails(song: TpabSong) {
     Row(
@@ -123,14 +107,6 @@ fun TpabSongDetails(song: TpabSong) {
     }
 }
 
-/**
- * Composable représentant une carte de chanson avec des informations de base et des détails extensibles.
- *
- * @param song Instance de [TpabSong] contenant les informations de la chanson.
- * @param expandable Indique si la carte est extensible pour afficher plus de détails.
- * @param clickable Indique si la carte est cliquable pour naviguer vers les détails de la chanson.
- * @param modifier Modificateur pour personnaliser l'apparence de la carte.
- */
 @Composable
 fun TpabSongCard(
     song: TpabSong,
@@ -195,20 +171,9 @@ fun TpabSongCard(
     }
 }
 
-<<<<<<< HEAD:app/src/main/java/com/example/project_2377432_2353116/TpabScreen.kt
-/**
- * Composable représentant l'écran principal des chansons TPAB avec fonctionnalités de recherche et liste des chansons.
- *
- * @param nameSearch Texte de recherche par nom de chanson.
- * @param onNameChange Callback appelé lorsque le texte de recherche par nom change.
- * @param numberSearch Numéro de recherche (par exemple, position dans le classement).
- * @param onNumberChange Callback appelé lorsque le numéro de recherche change.
- */
-=======
 
 
 
->>>>>>> d7e4beb350233299999e50c21af4c518a565ca54:app/src/main/java/com/example/project_2377432/TpabScreen.kt
 @Composable
 fun TpabScreen(
     nameSearch: String = "",
@@ -217,7 +182,6 @@ fun TpabScreen(
     onNumberChange: (String) -> Unit = {},
     onSongClick: (TpabSong) -> Unit = {}
 ) {
-    // Filtre les chansons en fonction des critères de recherche
     val filteredSongs = getTpabSongs(name = nameSearch, number = numberSearch)
 
     Column(
@@ -225,7 +189,6 @@ fun TpabScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Champs de recherche pour le nom et le numéro
         SearchTextFields(
             nameSearch = nameSearch,
             onNameChange = onNameChange,
@@ -235,7 +198,6 @@ fun TpabScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Grille verticale affichant les cartes des chansons filtrées
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 180.dp),
             modifier = Modifier.fillMaxSize(),
@@ -252,4 +214,3 @@ fun TpabScreen(
         }
     }
 }
-
